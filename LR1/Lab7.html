@@ -1,0 +1,23 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<script language="JavaScript">
+function cut()
+{
+lessons = new Array("Математика","Химия","Физика","Литература","История","Русский язык");
+exactSc = new Array();
+exactSc = lessons.slice(0,3)
+humanSc = new Array();
+humanSc = lessons.slice(3,6)
+document.write("Точные науки: "+exactSc+"."+"<br>");
+document.write("Гуманитарные науки: "+humanSc+"."+"<br>");
+}
+</script>
+</head>
+<body>
+<script language="JavaScript">
+cut();
+</script>
+</body>
+</html> 
+
