@@ -1,0 +1,43 @@
+<html>
+    <body>
+        <meta charset = "UTF-8">
+
+        <h1>Кто вы?</h1>
+
+        <form name="checkin" action="" method="POST">
+            <p><input type="radio" name="group1" value="0" onclick="on_choose(0);"> <new id="n0">Студент</new></p>
+            <p><input type="radio" name="group1" value="1" onclick="on_choose(1);"> <new id="n1">Человек</new></p>
+            <p><input type="radio" name="group1" value="2" onclick="on_choose(2);"> <new id="n2">Школьник</new></p>
+            <p><input type="radio" name="group1" value="3" onclick="on_choose(3);"> <new id="n3">Рабочий</new></p>
+            <p><input type="radio" name="group1" value="4" onclick="on_choose(4);"> <new id="n4">Солдат</new></p>
+            <p><input type="radio" name="group1" value="5" onclick="on_choose(5);"> <new id="n5">Повар</new></p>
+        </form>
+
+        <script language="JavaScript" type="text/JavaScript">
+
+            var votes = [0,0,0,0,0,0];
+            var sum = 0;
+
+            function on_choose(radio_id){
+                sum+=1;
+
+                votes[radio_id]++;
+
+                var n = [
+                    "Студент - " + votes[0] / sum * 100 + " %",
+                    "Человек - " + votes[1] / sum * 100 + " %",
+                    "Школьник - " + votes[2] / sum * 100 + " %",
+                    "Рабочий - " + votes[3] / sum * 100 + " %",
+                    "Солдат - " + votes[4] / sum * 100 + " %",
+                    "Повар - " + votes[5] / sum * 100 + " %",
+                ]
+
+                for (var i=0; i<6; i++){
+                    var nid = "n"+i;
+                    document.getElementById(nid).innerHTML = n[i];
+                }
+            }
+
+        </script>
+    </body>
+</html>

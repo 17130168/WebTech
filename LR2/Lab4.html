@@ -1,0 +1,13 @@
+<html>
+    <body>
+        <meta charset = "UTF-8">
+        <p id="mouse_position">Позиция курсора: </p>
+    </body>
+
+    <script language="JavaScript" src="../../jquery.js"></script>
+    <script language="JavaScript">
+        document.onmousemove = function(e){
+            document.getElementById("mouse_position").innerHTML = "Позиция курсора: " + e.pageX + ", " + e.pageY;
+        }
+    </script>
+</html>

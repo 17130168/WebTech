@@ -1,0 +1,104 @@
+<html>
+    <body align="center">
+        <meta charset = "UTF-8">
+
+        <p><h1>Калькулятор</h1></p>
+
+        <p>
+            <table align="center">
+                <tr>
+                    <td><textarea cols="80" id="intext" style="border:lightblue; border-width:2px; border-style:solid;" readonly="readonly"></textarea></td>
+                    <td><img src="buttons/arr.png" onclick="delete_symbol();"></td>
+                    <td><img src="buttons/clear.png" onclick="clear_symbols();"></td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            <table border="1" align="center">
+                <tr>
+                    <td><img src="buttons/7.png" onclick="clicked(7);"></td>
+                    <td><img src="buttons/8.png" onclick="clicked(8);"></td>
+                    <td><img src="buttons/9.png" onclick="clicked(9);"></td>
+                    <td><img src="buttons/mul.png" onclick="set_number_function(1);"></td>
+                </tr>
+                <tr>
+                    <td><img src="buttons/4.png" onclick="clicked(4);"></td>
+                    <td><img src="buttons/5.png" onclick="clicked(5);"></td>
+                    <td><img src="buttons/6.png" onclick="clicked(6);"></td>
+                    <td><img src="buttons/div.png" onclick="set_number_function(2);"></td>
+                </tr>
+                <tr>
+                    <td><img src="buttons/1.png" onclick="clicked(1);"></td>
+                    <td><img src="buttons/2.png" onclick="clicked(2);"></td>
+                    <td><img src="buttons/3.png" onclick="clicked(3);"></td>
+                    <td><img src="buttons/min.png" onclick="set_number_function(3);"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><img src="buttons/0.png" onclick="clicked(0);"></td>
+                    <td><img src="buttons/eq.png" onclick="go_count(0);"></td>
+                    <td><img src="buttons/sum.png" onclick="set_number_function(4);"></td>
+                </tr>
+            </table>
+        </p>
+
+        <script language="JavaScript">
+            var arg1 = 0.0;
+            var arg2 = 0.0;
+
+            var number_function = 0;
+
+            var counted = false;
+
+            function clicked(arg){
+                document.getElementById("intext").innerHTML += arg;
+            }
+
+            function clear_symbols(){
+                counted = false;
+                document.getElementById("intext").innerHTML = "";
+                number_function = 0;
+            }
+
+            function delete_symbol(){
+                var text = document.getElementById("intext").innerHTML
+                text = text.slice(0, -1);
+                document.getElementById("intext").innerHTML = text;
+            }
+
+            function set_number_function(arg){
+                counted = false;
+                arg1 = parseFloat(document.getElementById("intext").innerHTML);
+                document.getElementById("intext").innerHTML = "";
+                number_function = arg;
+            }
+
+            function go_count(){
+                if (!counted){
+                    arg2 = parseFloat(document.getElementById("intext").innerHTML);
+                    counted = true;
+                }
+
+                switch (number_function){
+                    case 1: // умножение
+                        arg1 *= arg2;
+                        break;
+                    case 2: // деление
+                        arg1 /= arg2;
+                        break;
+                    case 3: // вычитание
+                        arg1 -= arg2;
+                        break;
+                    case 4: // суммирование
+                        arg1 += arg2;
+                        break;
+                    default: return;
+                }
+
+                document.getElementById("intext").innerHTML = arg1;
+            }
+
+        </script>
+    </body>
+</html>
