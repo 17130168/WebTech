@@ -1,0 +1,52 @@
+<html>
+    <body>
+        <meta charset = "UTF-8">
+        <p>Нажимайте на стрелочки, чтобы двигать колесо</p>
+        <img id="wheel.png" src="wheel.png" style="position: absolute;">
+    </body>
+    <script language="JavaScript" src="LR3/jquery-3.6.0.min.js"></script>
+    <script language="JavaScript">
+        var current_position_x=0, current_position_y=0;
+
+        document.onkeydown = function(e){
+            var window_width = window.innerWidth, window_height = window.innerHeight;
+
+            switch(e.which) {
+                case 37: // left
+                    current_position_x-=100;
+                    if (current_position_x<0){
+                        current_position_x=0;
+                    }
+                break;
+
+                case 38: // up
+                    current_position_y-=100;
+                    if (current_position_y<0){
+                        current_position_y=0;
+                    }
+                break;
+
+                case 39: // right
+                    current_position_x+=100;
+                    if (current_position_x>window_width-400){
+                        current_position_x=window_width-400;
+                    }
+                break;
+
+                case 40: // down
+                    current_position_y+=100;
+                    if (current_position_y>window_height-400){
+                        current_position_y=window_height-400;
+                    }
+                break;
+
+                default: return; // exit this handler for other keys
+            }
+            $("#wheel.png").animate({
+                left: String(current_position_x)+"px",
+                top: String(current_position_y)+"px",
+            });
+            e.preventDefault();
+        }
+    </script>
+</html>
