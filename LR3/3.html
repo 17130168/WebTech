@@ -1,0 +1,82 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="3.css">	
+</head>
+<script>
+	var kol = 5
+	var tek = 5
+	
+	function LoadCards() {
+		$.ajax({
+			url: '3.php',
+			method: 'get',
+			dataType: 'json',
+			data: { kol, tek },
+			success: cards => AddCard(cards)
+		});
+	}
+
+	function AddCard(cards) {
+		if (cards != null) {
+			for (let i = 0; i < cards.length; i++) {
+				let newCard = '<div class="card">' +
+					'<img src="' + cards[i].Image + '">' +
+					'<h1>' + cards[i].Title + '</h1>' +
+					'<p>' + cards[i].Text.substring(0, 130) + '...</p>' +
+					'<a href="3b.php?newsId=' + cards[i].Id + '&text='+ cards[i].Text.replace(/"/g, "") +'" class="button button-comments">Комментарии</a>' +
+					'</div>' 
+				$('.card').last().after(newCard)
+				tek++
+			}
+		}
+	}
+</script>
+
+<body>
+	<div class="card-container">
+		<div class="card">
+			<img src="images/1.webp">
+			<h1>Московская биржа начнет торги фьючерсами на индекс американских акций</h1>
+			<p>Московская биржа начнет торги расчетными фьючерсными контрактами на индекс американских акций. Торги
+				стартуют 25 мая 2021 года на срочном рынке Московской биржи. Торговый код контракта - SPYF.</p>
+			<a href="3b.php?newsId=1&text=Московская биржа начнет торги фьючерсами на индекс американских акций" class="button button-comments">Комментарии</a>
+			
+		</div>
+		<div class="card">
+			<img src="images/2.webp">
+			<h1>Россия обогнала США и Европу по ценам на электроэнергию</h1>
+			<p>В прошлом году цена на электроэнергию для промышленности в России оказалась выше, чем в США и некоторых
+				странах Европейского союза. Об этом говорится в исследовании «Сообщества потребителей энергии»</p>
+			<a href="3b.php?newsId=2&text=Россия обогнала США и Европу по ценам на электроэнергию" class="button button-comments">Комментарии</a>
+		</div>
+		<div class="card">
+			<img src="images/3.webp">
+			<h1>Galaxy Digital: биткоин расходует электроэнергию в два раза меньше банков</h1>
+			<p>Одна из крупнейших компаний по управлению цифровыми активами Galaxy Digital опубликовала результаты
+				собственного исследования, из которых следует, что сеть биткоина потребляет в два раза меньше
+				электроэнергии, чем банковский сектор.</p>
+			<a href="3b.php?newsId=3&text=Galaxy Digital: биткоин расходует электроэнергию в два раза меньше банков" class="button button-comments">Комментарии</a>
+		</div>
+		<div class="card">
+			<img src="images/4.webp">
+			<h1>Доходы россиян рухнули до рекордно низкого уровня</h1>
+			<p>Реальные располагаемые доходы россиян рухнули до рекордного низкого уровня с 2009 года, поскольку
+				коронавирус усилил давление на стагнирующую экономику.</p>
+			<a href="3b.php?newsId=4&text=Доходы россиян рухнули до рекордно низкого уровня" class="button button-comments">Комментарии</a>
+		</div>
+		<div class="card">
+			<img src="images/5.webp">
+			<h1>Золото дорожает на снижении доходности гособлигаций США</h1>
+			<p>МОСКВА, 17 мая — ПРАЙМ. Стоимость золота в понедельник утром заметно поднимается за счёт того, что
+				снижается доходность госбондов США как альтернативное направление "защитных" инвестиций, свидетельствуют
+				данные торгов.</p>
+			<a href="3b.php?newsId=5&text=Золото дорожает на снижении доходности гособлигаций США" class="button button-comments">Комментарии</a>
+		</div>
+		<center>
+			<p class="button button-next" onclick="LoadCards()">Загрузить еще</p>
+		</center>
+	</div>
+</body>
+</html>
