@@ -1,0 +1,281 @@
+
+
+<html>
+
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="scripts/datepicker-ru.js"></script>
+	<link rel="stylesheet" href="styles/jquery-ui.min.css">
+	<link rel="stylesheet" href="styles/style.css">
+</head>
+<script>
+	$(function () {
+		var cities = [
+			"Москва",
+			"Лондон",
+			"Париж"
+		];
+		$("#from").autocomplete({
+			source: cities
+		});
+		$("#to").autocomplete({
+			source: cities
+		});
+
+		$.datepicker.setDefaults($.datepicker.regional["ru"]);
+		$("#start-date").datepicker({
+			onSelect: function (dateText, inst) {
+				CalcPrice();
+			}
+		});
+		$("#end-date").datepicker({
+			onSelect: function (dateText, inst) {
+				CalcPrice();
+			}
+		});
+
+		$("#accordion").accordion();
+
+		$("#passangers-slider").slider({
+			range: "max",
+			min: 1,
+			max: 10,
+			value: 1,
+			slide: function (event, ui) {
+				$("#passangers-count").val(ui.value);
+				CalcPrice();
+			}
+		});
+		$("#passangers-count").val($("#passangers-slider").slider("value"));
+
+		$("#luggage-slider").slider({
+			range: "max",
+			min: 10,
+			max: 50,
+			step: 10,
+			value: 10,
+			slide: function (event, ui) {
+				$("#luggage-weight").val(ui.value);
+				CalcPrice();
+			}
+		});
+		$("#luggage-weight").val($("#luggage-slider").slider("value"));
+
+		$(document).tooltip();
+
+		$("button").button();
+		$("#dialog-about").dialog(
+			{
+				autoOpen: false
+			}
+		);
+
+		$("#dialog-message").dialog(
+			{
+				modal: true,
+				autoOpen: false
+			}
+		);
+
+		$("#button-about").click(function (event) {
+			$("#dialog-about").dialog("open");
+		});
+
+		$("#button-buy").click(function (event) {
+			OnBuyClicked();
+			event.preventDefault();
+		});
+
+		var DialogStatus = {
+			Warning: 1,
+			Success: 2,
+			Question: 3
+		};
+
+		function ShowDialog(title, text, dialogStatus, buttons = null) {
+			$("#dialog-message").dialog("option", "title", title)
+			if (buttons == null) {
+				$("#dialog-message").dialog({
+					buttons: {
+						Ok: function () {
+							$(this).dialog("close");
+						}
+					}
+				})
+
+			}
+			else {
+				$("#dialog-message").dialog({
+					buttons: buttons
+				})
+			}
+			$("#dialog-message span").removeClass();
+			if (dialogStatus == DialogStatus.Success) {
+				$("#dialog-message span").addClass("ui-icon ui-icon-check");
+			}
+			if (dialogStatus == DialogStatus.Warning) {
+				$("#dialog-message span").addClass("ui-icon ui-icon-closethick");
+			}
+			if (dialogStatus == DialogStatus.Question) {
+				$("#dialog-message span").addClass("ui-icon ui-icon-help");
+			}
+
+			$("#dialog-text").text(text)
+			$("#dialog-message").dialog("open")
+		}
+
+		function CheckFields() {
+			if ($("#start-date").val() == "") {
+				ShowDialog("Внимание!", "Вы не указали дату вылета", DialogStatus.Warning)
+			}
+			else {
+				if ($("#end-date").val() == "") {
+					ShowDialog("Внимание!", "Вы не указали дату вылета обратно", DialogStatus.Warning)
+				}
+				else {
+					if ($("#to").val() == "") {
+						ShowDialog("Внимание!", "Вы не указали куда летим", DialogStatus.Warning)
+					}
+					else {
+						if ($("#from").val() == "") {
+							ShowDialog("Внимание!", "Вы не указали откуда летим", DialogStatus.Warning)
+						}
+						else {
+							return true
+						}
+					}
+				}
+			}
+			return false
+		}
+
+		function CalcPrice() {
+			if (CheckFields()) {
+				let passangersCount = $("#passangers-count").val()
+				let luggageWeight = $("#luggage-weight").val()
+
+				let price = passangersCount * (luggageWeight * 0.2) * 10000
+				$("#price").text("Итого: " + price + " руб.");
+			}
+		}
+
+		function OnBuyClicked() {
+			if (CheckFields()) {
+				CalcPrice()
+				ShowDialog("Внимание!", "Вы действительно хотите купить билет?", DialogStatus.Question, {
+					Да: function () {
+						$(this).dialog("close");
+						ShowDialog("Поздравлем с покупкой!", "Билет куплен, спасибо что выбрали нас", DialogStatus.Success)
+					},
+					Нет: function () {
+
+						$(this).dialog("close");
+					}
+				})
+			}
+		}
+	});
+</script>
+
+<body>
+	<div id="dialog-about" title="О нас">
+		<p>Мы не продаём авиабилеты Мы находим лучшие Бесплатно</p>
+	</div>
+
+	<div id="dialog-message">
+		<p>
+			<span style="float:left; margin:0 7px 10px 0;"></span>
+		</p>
+		<p id="dialog-text"></p>
+	</div>
+
+	<div class="container">
+		<div class="container-content">
+			<button id="button-about">О нас</button>
+			<h1>Авиабилеты:</h1>
+			<form>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Откуда</label>
+						<input type="text" class="form-control" id="from" value="Москва"
+							title="Укажите откуда вылетаем">
+					</div>
+					<div class="form-group">
+						<label>Куда</label>
+						<input type="text" class="form-control" id="to" value="Москва" title="Укажите куда полетим">
+					</div>
+					<div class="form-group ">
+						<label>Туда</label>
+						<input type="text" class="form-control" id="start-date" title="Укажите когда полетите">
+					</div>
+					<div class="form-group ">
+						<label>Обратно</label>
+						<input type="text" class="form-control" id="end-date" title="Укажите когда полетите обратно">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<div class="slider-wrap">
+							<div>
+								<label style="display: inline;">Кол-во билетов:</label>
+								<input type="text" id="passangers-count" class="slider-value" readonly>
+							</div>
+							<div id="passangers-slider" title="Укажите сколько нужно билетов"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="slider-wrap">
+							<div>
+								<label style="display: inline;">Масса багажа (кг):</label>
+								<input type="text" id="luggage-weight" class="slider-value" readonly>
+							</div>
+							<div id="luggage-slider" title="Укажите массу багажа"></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<h2 id="price">Итого: </h2>
+				</div>
+				<div class="row">
+					<button id="button-buy">Купить</button>
+				</div>
+				<div class="row" style="margin-top: 30px;">
+					<div style="width: 100%;">
+					<h2>Часто задаваемые вопросы:</h2>
+					<div id="accordion">
+						
+						<h3>Как получить билет?</h3>
+						<div>
+							<p>Подойти к кассе и сообщить номер билета</p>
+						</div>
+						<h3>Как оплтатить билет?</h3>
+						<div>
+							<p>Скинуть деньги на номер 88005553535</p>
+						</div>
+						<h3>Как вернуть билет?</h3>
+						<div>
+							<p>Никак</p>
+						</div>
+						<h3>Застрахован ли я в случае рисков?</h3>
+						<div>
+							<p>Нет, все на свой страх и риск</p>
+						</div>
+						<h3>Где ваш юридический адрес?</h3>
+						<div>
+							<p>Ул. Пушкина, д. Колотушкина, кв. Петрова, спросить Вольнова</p>
+						</div>
+					</div>
+				</div>
+				</div>
+		</div>
+	</div>
+
+	</form>
+
+	</div>
+	</div>
+</body>
+
+</html>
