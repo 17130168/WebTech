@@ -1,0 +1,53 @@
+body{
+	background-color: white;
+	font-family: "YS Text", "Helvetica Neue", Arial;
+}
+
+.game-container{
+	margin: 0 auto;
+	background-color: skyblue;
+	background-image: url("../images/background.jpg");
+	background-size: cover;
+	width: 60vw;
+	height: 60vh;
+	overflow: hidden;	
+	cursor: crosshair;
+	position: relative;
+	box-shadow:  0 0 10px rgba(0,0,0,0.5); 
+}
+
+.duck{
+	position: absolute;
+	border-width: 0px;
+	width: 82px;
+	height: 90px;
+	animation-name: move;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0.5s;  
+	animation-iteration-count: infinite; 
+}
+
+ @keyframes move {
+    0% { background-image: url("../images/duck1.png");}
+    100% { background-image: url("../images/duck2.png");}
+}
+
+@keyframes move-reverse {
+    0% { background-image: url("../images/duckMirror1.png");}
+    100% { background-image: url("../images/duckMirror2.png");}
+}
+
+.statistics{
+	text-align: center;
+	margin-top: 20px;
+}
+
+h1{
+	text-align: center;
+}
+
+h2{
+	margin: 0 35px;
+	display: inline;
+}
