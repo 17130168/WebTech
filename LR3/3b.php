@@ -8,14 +8,30 @@
     $(function () {
 		<?php echo 'var newsId = '.$_GET['newsId'].';' ?>      
 
+		function AddComment(comment)
+		{		
+			let commentDateTime = new Date(comment.DateTime);
+			let commentRusDate = commentDateTime.toLocaleDateString("ru-RU") + " " + commentDateTime.getHours() + ":" + commentDateTime.getMinutes() + ":" + commentDateTime.getSeconds();
+			let content = '<div class="comment">' +
+			'<img src="images/ava.jpg"></img>' +
+				'<div class="comment-content">' +
+					'<p class="author">Автор: ' + comment.Name + '</p>' +
+					'<p class="date">' + commentRusDate + '</p>' +
+					'<p class="text">' + comment.Text + '</p>' +
+				'</div>' +
+			'</div>';
+			$('.comments-container').prepend(content)
+		}
+		
         $('form').submit(function (e) {
 
             let $form = $(this);
             let comment = {
-                name: $form.children('input[name="name"]').val(),
-                text: $form.children('textarea[name="text"]').val(),
-                email: $form.children('input[name="email"]').val(),
-                newsId: newsId
+                Name: $form.children('input[name="name"]').val(),
+                Text: $form.children('textarea[name="text"]').val(),
+                Email: $form.children('input[name="email"]').val(),
+				DateTime: new Date(),
+                NewsId: newsId
             };
 
             $.ajax({
@@ -23,7 +39,9 @@
                 url: $form.attr('action'),
                 dataType: 'json',
                 data: { data: comment },
-                success: function (message) {
+                success: function (message) {	
+					$('form').find("input[type=text], textarea").val("");				
+					AddComment(comment);
                     alert(message);
                 }
             }).fail(function (data) {
@@ -43,19 +61,11 @@
 		function AddComments(comments) {
 		if (comments != null) {
 			for (let i = 0; i < comments.length; i++) {
-				let newComment = 
-				'<div class="comment">' +
-					'<img src="images/ava.jpg"></img>' +
-					'<div class="comment-content">' +
-						'<p class="author">Автор: ' + comments[i].Name + '</p>' +
-						'<p class="date">' + comments[i].DateTime + '</p>' +
-						'<p class="text">' + comments[i].Text + '</p>' +
-					'</div>' +
-				'</div>';
-
-				$('.comments-container').append(newComment)
+				AddComment(comments[i])				
 			}
 		}
+		
+		
 	}
     });
 </script>
