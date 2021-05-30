@@ -4,13 +4,19 @@
 </head>
 <body>
 <script language="javascript">
+function ask() {
 var name = prompt('Введите сюда своё имя', 'Введите имя');
 alert('Ваше имя ' + name + '?');
-choise = confirm('Начать заново?');
-if (choise == true) 
-{alert('Не надоело?');}
+choise1 = confirm('Начать заново?');
+if (choise1 == true) 
+{choise2 = confirm('Не надоело?');
+if (choise2 == true)
+{ask();}
+}
 else
 {alert('Ну и правильно!');}
+}
+ask();
 </script>
 </body>
 </html>
