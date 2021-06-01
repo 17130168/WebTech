@@ -2,11 +2,11 @@
     <body>
         <meta charset = "UTF-8">
         <p>Нажимайте на стрелочки, чтобы двигать колесо</p>
-        <img id="wheel.png" src="wheel.png" style="position: absolute;">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <img id="wheel" src="wheel.png" style="position: absolute; transition-duration: .5s; top: 50px; left: 0px;">
     </body>
-    <script language="JavaScript" src="LR3/jquery-3.6.0.min.js"></script>
     <script language="JavaScript">
-        var current_position_x=0, current_position_y=0;
+        var current_position_x=0, current_position_y=50;
 
         document.onkeydown = function(e){
             var window_width = window.innerWidth, window_height = window.innerHeight;
@@ -42,10 +42,8 @@
 
                 default: return; // exit this handler for other keys
             }
-            $("#wheel.png").animate({
-                left: String(current_position_x)+"px",
-                top: String(current_position_y)+"px",
-            });
+			$("#wheel").css("top", current_position_y)
+			$("#wheel").css("left", current_position_x)
             e.preventDefault();
         }
     </script>
