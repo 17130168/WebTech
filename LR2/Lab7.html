@@ -1,4 +1,11 @@
 <html>
+	<head>
+		<style>
+			img {
+				cursor: pointer;
+			}
+		</style>
+	</head>
     <body align="center">
         <meta charset = "UTF-8">
 
@@ -9,7 +16,6 @@
                 <tr>
                     <td><textarea cols="80" id="intext" style="border:lightblue; border-width:2px; border-style:solid;" readonly="readonly"></textarea></td>
                     <td><img src="buttons/arr.png" onclick="delete_symbol();"></td>
-                    <td><img src="buttons/clear.png" onclick="clear_symbols();"></td>
                 </tr>
             </table>
         </p>
@@ -17,33 +23,45 @@
         <p>
             <table border="1" align="center">
                 <tr>
+                    <td><img src="buttons/M+.png" onclick="MInc();"></td>
+                    <td><img src="buttons/M-.png" onclick="MDec();"></td>
+                    <td><img src="buttons/MC.png" onclick="MClear();"></td>					
+                    <td><img src="buttons/MR.png" onclick="MRead();"></td>
+					<td><div onclick="MSave();" style="width: 50px; height: 50px;display: flex; justify-content: center;  align-items: center; font-size: 18pt; cursor: pointer;">MS</div></td>
+                </tr>
+                <tr>
                     <td><img src="buttons/7.png" onclick="clicked(7);"></td>
                     <td><img src="buttons/8.png" onclick="clicked(8);"></td>
                     <td><img src="buttons/9.png" onclick="clicked(9);"></td>
                     <td><img src="buttons/mul.png" onclick="set_number_function(1);"></td>
+					<td></td>
                 </tr>
                 <tr>
                     <td><img src="buttons/4.png" onclick="clicked(4);"></td>
                     <td><img src="buttons/5.png" onclick="clicked(5);"></td>
                     <td><img src="buttons/6.png" onclick="clicked(6);"></td>
                     <td><img src="buttons/div.png" onclick="set_number_function(2);"></td>
+					<td></td>
                 </tr>
                 <tr>
                     <td><img src="buttons/1.png" onclick="clicked(1);"></td>
                     <td><img src="buttons/2.png" onclick="clicked(2);"></td>
                     <td><img src="buttons/3.png" onclick="clicked(3);"></td>
                     <td><img src="buttons/min.png" onclick="set_number_function(3);"></td>
+					<td></td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td><img src="buttons/clear.png" onclick="clear_symbols();"></td>
                     <td><img src="buttons/0.png" onclick="clicked(0);"></td>
                     <td><img src="buttons/eq.png" onclick="go_count(0);"></td>
                     <td><img src="buttons/sum.png" onclick="set_number_function(4);"></td>
+					<td></td>
                 </tr>
             </table>
         </p>
 
         <script language="JavaScript">
+			var mValue = 0.0;
             var arg1 = 0.0;
             var arg2 = 0.0;
 
@@ -98,6 +116,35 @@
 
                 document.getElementById("intext").innerHTML = arg1;
             }
+			
+			function MRead(){
+				document.getElementById("intext").innerHTML = mValue
+			}
+			
+			function MSave(){
+				if (document.getElementById("intext").innerHTML != "")
+				{
+					mValue =  parseFloat(document.getElementById("intext").innerHTML)
+				}
+			}
+			
+			function MClear(){
+				mValue = 0;
+			}
+			
+			function MInc(){
+				if (document.getElementById("intext").innerHTML != "")
+				{
+					mValue +=  parseFloat(document.getElementById("intext").innerHTML)
+				}
+			}
+			
+			function MDec(){
+				if (document.getElementById("intext").innerHTML != "")
+				{
+					mValue -=  parseFloat(document.getElementById("intext").innerHTML)
+				}
+			}
 
         </script>
     </body>
